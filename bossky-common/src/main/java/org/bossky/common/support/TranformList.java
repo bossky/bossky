@@ -1,4 +1,4 @@
-package org.bossky.common;
+package org.bossky.common.support;
 
 import java.util.AbstractList;
 import java.util.List;
