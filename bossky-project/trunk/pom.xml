@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.bossky</groupId>
+	<artifactId>bossky-project</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<name>bossky-project</name>
+	<url>http://www.bossky.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<modules>
+		<module>bossky-common</module>
+		<module>bossky-mapper</module>
+		<module>bossky-search</module>
+		<module>bossky-search-lucene</module>
+		<module>bossky-store</module>
+		<module>bossky-store-db</module>
+		<module>bossky-store-mysql</module>
+		<module>bossky-store-sqlite</module>
+	</modules>
+</project>
