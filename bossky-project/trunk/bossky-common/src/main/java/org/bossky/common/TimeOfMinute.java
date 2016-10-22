@@ -1,7 +1,9 @@
-package org.bossky.common.time;
+package org.bossky.common;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.annotation.Resource;
 
 /**
  * 分钟，秒
@@ -11,9 +13,15 @@ import java.util.Date;
  */
 public class TimeOfMinute {
 	/** 分钟 */
+	@Resource
 	protected int minute;
 	/** 秒 */
+	@Resource
 	protected int second;
+
+	protected TimeOfMinute() {
+
+	}
 
 	public TimeOfMinute(Date date) {
 		Calendar cal = Calendar.getInstance();

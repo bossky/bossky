@@ -1,5 +1,8 @@
 package org.bossky.common.time;
 
+import org.bossky.common.TimeOfHour;
+import org.bossky.common.TimeOfMinute;
+
 /**
  * 定时器
  * 
