@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.bossky.common.time.Task;
 import org.bossky.common.time.TaskExecute;
+import org.bossky.common.util.Misc;
 import org.bossky.common.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,17 @@ public class SimpleTaskExecute implements TaskExecute, Runnable {
 	static final Logger _Logger = LoggerFactory.getLogger(SimpleTaskExecute.class);
 	/** 队列 */
 	protected ConcurrentLinkedQueue<SimpleTask> queue;
-
+	/** 是否运行中 */
 	protected boolean isRunning;
+	/** 执行器名称 */
+	protected String name;
 
 	public SimpleTaskExecute() {
+		this(Misc.toHex(System.currentTimeMillis()));
+	}
+
+	public SimpleTaskExecute(String name) {
+		this.name = name;
 		queue = new ConcurrentLinkedQueue<SimpleTask>();
 		start();
 	}
@@ -34,7 +42,7 @@ public class SimpleTaskExecute implements TaskExecute, Runnable {
 	 */
 	public void start() {
 		isRunning = true;
-		Thread thread = new Thread(this, "SimpleTaskExecute");
+		Thread thread = new Thread(this, "SimpleTaskExecute-" + name);
 		thread.start();
 	}
 

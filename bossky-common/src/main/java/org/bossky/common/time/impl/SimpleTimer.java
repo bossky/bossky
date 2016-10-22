@@ -2,11 +2,11 @@ package org.bossky.common.time.impl;
 
 import java.util.Calendar;
 
+import org.bossky.common.TimeConstant;
 import org.bossky.common.TimeOfHour;
 import org.bossky.common.TimeOfMinute;
 import org.bossky.common.time.Task;
 import org.bossky.common.time.TaskExecute;
-import org.bossky.common.time.TimeConstant;
 import org.bossky.common.time.Timer;
 
 /**
