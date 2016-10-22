@@ -9,7 +9,21 @@
 
 	<name>bossky-project</name>
 	<url>http://www.bossky.org</url>
-
+	
+	<!--使用deploy 可将版本发布到仓库去，注意要在setting.xml的servers中配置用户名和密码，并且id要对应上 -->
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://nexus.bossky8023.com/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshots Repository</name>
+			<url>http://nexus.bossky8023.com/content/repositories/releases/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
