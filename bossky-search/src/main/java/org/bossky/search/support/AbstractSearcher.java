@@ -3,8 +3,8 @@ package org.bossky.search.support;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bossky.common.TranformList;
-import org.bossky.common.util.Assert;
+import org.bossky.common.support.TranformList;
+import org.bossky.common.util.AssertUtil;
 import org.bossky.common.util.Misc;
 import org.bossky.search.IndexEntry;
 import org.bossky.search.IndexKeyword;
@@ -66,7 +66,7 @@ public abstract class AbstractSearcher implements Searcher {
 
 	@Override
 	public void updateEntry(IndexEntry entry, List<IndexKeyword> kewords) {
-		Assert.assertNotNull(entry, "条目不能是空");
+		AssertUtil.assertNotNull(entry, "条目不能是空");
 		if (Misc.isEmpty(kewords)) {
 			doRemoveEntry(entry);// 关键字为空则删除
 		} else {
@@ -76,7 +76,7 @@ public abstract class AbstractSearcher implements Searcher {
 
 	@Override
 	public void removeEntry(IndexEntry entry) {
-		Assert.assertNotNull(entry, "条目不能是空");
+		AssertUtil.assertNotNull(entry, "条目不能是空");
 		doRemoveEntry(entry);
 	}
 
