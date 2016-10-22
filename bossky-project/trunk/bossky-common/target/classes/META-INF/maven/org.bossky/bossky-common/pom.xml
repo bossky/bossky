@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.bossky</groupId>
+		<artifactId>bossky-project</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<artifactId>bossky-common</artifactId>
+	<packaging>jar</packaging>
+	
+	<!--使用deploy 可将版本发布到仓库去，注意要在setting.xml的servers中配置用户名和密码，并且id要对应上 -->
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://nexus.bossky8023.com/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshots Repository</name>
+			<url>http://nexus.bossky8023.com/content/repositories/releases/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- 日志 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.13</version>
+		</dependency>
+	</dependencies>
+</project>
