@@ -1,4 +1,4 @@
-package org.bossky.common.time;
+package org.bossky.common;
 
 /**
  * 时间常量

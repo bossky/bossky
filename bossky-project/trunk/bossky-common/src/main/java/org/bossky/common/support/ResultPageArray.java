@@ -8,11 +8,11 @@ import java.util.Iterator;
  * @author bo
  *
  */
-public class ArrayResultPage<E> extends AbstractResultPage<E> {
+public class ResultPageArray<E> extends AbstractResultPage<E> {
 	Object[] arr;
 	int cursor;
 
-	ArrayResultPage(E[] arr) {
+	ResultPageArray(E[] arr) {
 		this.arr = arr;
 		cursor = 0;
 	}

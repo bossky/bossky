@@ -12,7 +12,7 @@ import org.bossky.common.ResultPage;
  * @author bo
  *
  */
-public class UniteResultPage<E> extends AbstractResultPage<E> {
+public class ResultPageUnite<E> extends AbstractResultPage<E> {
 	List<ResultPage<E>> resultPages;
 	int current;
 	int count;
@@ -20,13 +20,13 @@ public class UniteResultPage<E> extends AbstractResultPage<E> {
 	int end;
 	int cursor;
 
-	public UniteResultPage() {
+	public ResultPageUnite() {
 		resultPages = new ArrayList<ResultPage<E>>();
 
 	}
 
-	public static <E> UniteResultPage<E> getInstance() {
-		UniteResultPage<E> unite = new UniteResultPage<E>();
+	public static <E> ResultPageUnite<E> getInstance() {
+		ResultPageUnite<E> unite = new ResultPageUnite<E>();
 		return unite;
 	}
 

@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.bossky.common.time.TimeConstant;
-
 /**
  * 小时，分钟，秒
  * 

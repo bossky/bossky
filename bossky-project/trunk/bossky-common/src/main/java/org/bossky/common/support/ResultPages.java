@@ -25,7 +25,7 @@ public class ResultPages {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> ResultPage<E> toResultPage(Collection<E> collection) {
-		return new ArrayResultPage<E>((E[]) collection.toArray());
+		return new ResultPageArray<E>((E[]) collection.toArray());
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class ResultPages {
 	 */
 	@SafeVarargs
 	public static <E> ResultPage<E> unite(ResultPage<E>... arr) {
-		UniteResultPage<E> unite = UniteResultPage.getInstance();
+		ResultPageUnite<E> unite = ResultPageUnite.getInstance();
 		if (null != arr) {
 			for (ResultPage<E> rp : arr) {
 				unite.add(rp);
@@ -62,8 +62,8 @@ public class ResultPages {
 	 * @return
 	 */
 	public static <E> List<E> toList(ResultPage<E> rp) {
-		if (rp instanceof ArrayResultPage) {
-			ArrayResultPage<E> arp = (ArrayResultPage<E>) rp;
+		if (rp instanceof ResultPageArray) {
+			ResultPageArray<E> arp = (ResultPageArray<E>) rp;
 			return Arrays.asList(arp.toArray());
 		}
 		return new ResultPageList<E>(rp);
