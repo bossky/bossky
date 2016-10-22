@@ -38,8 +38,8 @@ public abstract class AbstractSearcher implements Searcher {
 
 	@Override
 	public IndexResult get(String... keywords) {
-		search(keywords);
-		return null;// TODO
+		IndexResults irs = search(keywords);
+		return irs.next();// 拿第一个就行了
 	}
 
 	@Override
@@ -49,14 +49,13 @@ public abstract class AbstractSearcher implements Searcher {
 
 	@Override
 	public IndexResults search(long options, String... kewords) {
-		return search(options,
-				new TranformList<QueryKeyword, String>(Arrays.asList(kewords)) {
+		return search(options, new TranformList<QueryKeyword, String>(Arrays.asList(kewords)) {
 
-					@Override
-					public QueryKeyword tranform(String v) {
-						return QueryKeywords.valueOfKeyword(v);
-					}
-				});
+			@Override
+			public QueryKeyword tranform(String v) {
+				return QueryKeywords.valueOfKeyword(v);
+			}
+		});
 	}
 
 	@Override
@@ -91,8 +90,7 @@ public abstract class AbstractSearcher implements Searcher {
 	}
 
 	@Override
-	public IndexResults searchRange(long options, String begin, String end,
-			List<QueryKeyword> keywords) {
+	public IndexResults searchRange(long options, String begin, String end, List<QueryKeyword> keywords) {
 		return doSearch(options, begin, end, keywords);
 	}
 
@@ -115,8 +113,7 @@ public abstract class AbstractSearcher implements Searcher {
 	 * @param entry
 	 * @param kewords
 	 */
-	protected abstract void doUpdateEntry(IndexEntry entry,
-			List<IndexKeyword> kewords);
+	protected abstract void doUpdateEntry(IndexEntry entry, List<IndexKeyword> kewords);
 
 	/**
 	 * 执行移除方法
@@ -133,7 +130,6 @@ public abstract class AbstractSearcher implements Searcher {
 	 * @paran end
 	 * @param keywords
 	 */
-	protected abstract IndexResults doSearch(long options, String begin,
-			String end, List<QueryKeyword> keywords);
+	protected abstract IndexResults doSearch(long options, String begin, String end, List<QueryKeyword> keywords);
 
 }
