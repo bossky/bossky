@@ -19,14 +19,14 @@ public class AbstractStoreble<T extends Assistant> implements Storeble {
 	/** 唯一标识id */
 	protected StoreId id;
 	/** 助手 */
-	protected Assistant assistant;
+	protected T assistant;
 
 	/**
 	 * 一定要保留这个构造，反射用的
 	 * 
 	 * @param assistant
 	 */
-	protected AbstractStoreble(Assistant assistant) {
+	protected AbstractStoreble(T assistant) {
 		this.assistant = assistant;
 	}
 
@@ -38,6 +38,10 @@ public class AbstractStoreble<T extends Assistant> implements Storeble {
 	@Override
 	public void init(StoreId id, Store<? extends Storeble> store) {
 		this.id = id;
+	}
+
+	public T getAssistant() {
+		return assistant;
 	}
 
 	/**
@@ -54,11 +58,11 @@ public class AbstractStoreble<T extends Assistant> implements Storeble {
 	 */
 	protected void genId(String prefix) {
 		if (null == prefix) {
-			this.id = new StoreId(getClass(), Timestamp.nextHex() + "-"
-					+ Misc.toHex(assistant.getStoreHub().getServerId()));
+			this.id = new StoreId(getClass(),
+					Timestamp.nextHex() + "-" + Misc.toHex(assistant.getStoreHub().getServerId()));
 		} else {
-			this.id = new StoreId(getClass(), prefix + Timestamp.nextHex()
-					+ "-" + Misc.toHex(assistant.getStoreHub().getServerId()));
+			this.id = new StoreId(getClass(),
+					prefix + Timestamp.nextHex() + "-" + Misc.toHex(assistant.getStoreHub().getServerId()));
 		}
 	}
 
@@ -68,8 +72,7 @@ public class AbstractStoreble<T extends Assistant> implements Storeble {
 			throw new StoreException("未初始化id");
 		}
 		StoreHub hub = assistant.getStoreHub();
-		Store<AbstractStoreble<?>> store = (Store<AbstractStoreble<?>>) hub
-				.getStore(getClass(), assistant);
+		Store<AbstractStoreble<?>> store = (Store<AbstractStoreble<?>>) hub.getStore(getClass(), assistant);
 		store.save(this);
 	}
 

@@ -5,14 +5,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.bossky.store.Assistant;
 import org.bossky.store.support.AbstractStoreble;
 
 public class ListTest extends AbstractStoreble<AssistantImpl> {
 	@Resource
 	public List<List<Integer>> integers;
 
-	protected ListTest(Assistant assistant) {
+	protected ListTest(AssistantImpl assistant) {
 		super(assistant);
 		genId();
 	}

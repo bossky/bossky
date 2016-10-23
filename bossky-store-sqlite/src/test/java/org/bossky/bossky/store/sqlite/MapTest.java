@@ -5,14 +5,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.bossky.store.Assistant;
 import org.bossky.store.support.AbstractStoreble;
 
 public class MapTest extends AbstractStoreble<AssistantImpl> {
 	@Resource
 	public Map<String, Integer> integers;
 
-	protected MapTest(Assistant assistant) {
+	protected MapTest(AssistantImpl assistant) {
 		super(assistant);
 		genId();
 	}
