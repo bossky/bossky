@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.bossky.store.Assistant;
 import org.bossky.store.support.AbstractStoreble;
 
 public class SetTest extends AbstractStoreble<AssistantImpl> {
@@ -14,7 +13,7 @@ public class SetTest extends AbstractStoreble<AssistantImpl> {
 	@Resource
 	public Set<BaseTest> objs;
 
-	protected SetTest(Assistant assistant) {
+	protected SetTest(AssistantImpl assistant) {
 		super(assistant);
 		genId();
 	}

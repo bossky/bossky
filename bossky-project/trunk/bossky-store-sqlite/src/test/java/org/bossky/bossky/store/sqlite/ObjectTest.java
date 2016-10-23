@@ -2,7 +2,6 @@ package org.bossky.bossky.store.sqlite;
 
 import javax.annotation.Resource;
 
-import org.bossky.store.Assistant;
 import org.bossky.store.support.AbstractStoreble;
 
 public class ObjectTest extends AbstractStoreble<AssistantImpl> {
@@ -17,7 +16,7 @@ public class ObjectTest extends AbstractStoreble<AssistantImpl> {
 		super(null);
 	}
 
-	protected ObjectTest(Assistant assistant) {
+	protected ObjectTest(AssistantImpl assistant) {
 		super(assistant);
 		genId();
 	}
