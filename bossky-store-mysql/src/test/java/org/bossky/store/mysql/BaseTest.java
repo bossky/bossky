@@ -1,6 +1,10 @@
 package org.bossky.store.mysql;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -44,6 +48,14 @@ public class BaseTest extends AbstractStoreble<Assistant> {
 	protected Date dateValue;
 	@Resource
 	protected String strValue;
+	@Resource
+	protected List<Integer> intlist;
+	@Resource
+	protected Set<String> strSet;
+	@Resource
+	protected String a;
+	@Resource
+	protected String b;
 
 	protected BaseTest() {
 		super(null);
@@ -73,6 +85,11 @@ public class BaseTest extends AbstractStoreble<Assistant> {
 		charValueObj = Character.MAX_VALUE;
 		dateValue = new Date();
 		strValue = "\"HelloWorld\"";
+		intlist = Arrays.asList(110, 112);
+		Set<String> set = new HashSet<String>();
+		set.add("Hello");
+		set.add("World");
+		strSet = set;
 	}
 
 	public void flush() {

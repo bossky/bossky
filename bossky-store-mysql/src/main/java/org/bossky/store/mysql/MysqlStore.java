@@ -27,6 +27,7 @@ import org.bossky.store.StoreId;
 import org.bossky.store.Storeble;
 import org.bossky.store.db.DbStore;
 import org.bossky.store.db.support.DbExecuter;
+import org.bossky.store.db.support.Table;
 import org.bossky.store.db.util.SQLUtil;
 import org.bossky.store.exception.StoreException;
 
@@ -75,6 +76,51 @@ public class MysqlStore<T extends Storeble> extends DbStore<T> {
 		super(hub, clazz, initargs);
 		isSmartMapper = true;
 		mapperSet = new SimpleMapperSet();
+	}
+
+	/**
+	 * 更新表
+	 */
+	@Override
+	protected void updateTable(Table table) {
+		DbExecuter executer = hub.getExecuter();
+
+		List<Meta> newMetas = new ArrayList<Meta>();
+		for (Meta m : mapper.getMetas()) {
+			boolean isExist = false;
+			for (Table.Column c : table.getColumns()) {
+				if (Misc.eq(m.getName(), c.getName())) {
+					String sqlType = toSqlType(m.getType());
+					if (!sqlType.toUpperCase().startsWith(c.getType().toUpperCase())) {
+						throw new IllegalArgumentException("不允许改变已有属性的类型,原来" + c.getType() + ",现在" + sqlType);
+					}
+					isExist = true;
+					break;
+				}
+			}
+			if (!isExist) {
+				newMetas.add(m);// 新加的
+			}
+		}
+		if (newMetas.isEmpty()) {
+			return;
+		}
+
+		for (Meta m : newMetas) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("ALTER TABLE `");
+			sb.append(tableName());
+			sb.append("` ADD COLUMN ");
+			sb.append(m.getName());
+			sb.append("   ");
+			sb.append(toSqlType(m.getType()));
+			sb.append(";");
+			try {
+				executer.executeUpdate(sb.toString());
+			} catch (SQLException e) {
+				throw new StoreException("执行" + sb.toString() + "语句异常", e);
+			}
+		}
 	}
 
 	@Override
