@@ -6,7 +6,7 @@ package org.bossky.search;
  * @author bo
  *
  */
-public interface Searchers {
+public interface SearcherHub {
 	/**
 	 * 打开一个搜索器，没有会创建
 	 * 
