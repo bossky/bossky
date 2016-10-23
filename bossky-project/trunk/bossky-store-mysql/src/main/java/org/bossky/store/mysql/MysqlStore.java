@@ -2,6 +2,7 @@ package org.bossky.store.mysql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -78,49 +79,41 @@ public class MysqlStore<T extends Storeble> extends DbStore<T> {
 
 	@Override
 	protected String toSqlType(MetaType type) {
-		// NULL The value is a NULL value.
-		// INTEGER The value is a signed integer, stored in 1, 2, 3, 4, 6, or 8
-		// bytes depending on the magnitude of the value.
-		// REAL The value is a floating point value, stored as an 8-byte IEEE
-		// floating point number.
-		// TEXT The value is a text string, stored using the database encoding
-		// (UTF-8, UTF-16BE or UTF-16LE)
-		// BLOB The value is a blob of data, stored exactly as it was input.
 		if (type == MetaType.BYTE) {
-			return "TEXT";
+			return "bit(64)";
 		}
 		if (type == MetaType.SHORT || type == MetaType.INTEGER || type == MetaType.LONG) {
-			return "INTEGER";
+			return "bigint(64)";
 		}
 		if (type == MetaType.FLOAT || type == MetaType.DOUBLE) {
-			return "REAL";
+			return "double";
 		}
 		if (type == MetaType.BOOLEAN) {
-			return "INTEGER";
+			return "bit(1)";
 		}
 		if (type == MetaType.CHARACTER) {
-			return "TEXT";
+			return "char(1)";
 		}
 		if (type == MetaType.STRING) {
-			return "TEXT";
+			return "varchar(255)";
 		}
 		if (type == MetaType.DATE) {
-			return "TEXT";
+			return "datetime";
 		}
 		if (type == MetaType.ARRAY) {
 			throw new UnsupportedOperationException("尚不支持" + type + "类型");
 		}
 		if (type == MetaType.LIST) {
-			return "TEXT";
+			return "varchar(1024)";
 		}
 		if (type == MetaType.SET) {
-			return "TEXT";
+			return "varchar(1024)";
 		}
 		if (type == MetaType.MAP) {
-			return "TEXT";
+			return "varchar(1024)";
 		}
 		if (type == MetaType.OBJECT) {
-			return "TEXT";// 所有对象都用文本存储
+			return "varchar(1024)";// 所有对象都用文本存储
 		}
 		throw new UnsupportedOperationException("尚不支持" + type + "类型");
 	}
@@ -131,7 +124,7 @@ public class MysqlStore<T extends Storeble> extends DbStore<T> {
 		if (null == value) {
 			return NULL;
 		} else if (type == MetaType.BYTE) {
-			return "'" + SQLUtil.escape(value) + "'";
+			return value;
 		} else if (type == MetaType.SHORT) {
 			return (Short) value;
 		} else if (type == MetaType.INTEGER) {
@@ -375,8 +368,7 @@ public class MysqlStore<T extends Storeble> extends DbStore<T> {
 		if (null == obj) {
 			return null;
 		} else if (type == MetaType.BYTE) {
-			String value = (String) obj;
-			return Byte.valueOf(value);
+			return rs.getByte(m.getName());
 		} else if (type == MetaType.SHORT) {
 			return rs.getShort(m.getName());
 		} else if (type == MetaType.INTEGER) {
@@ -398,8 +390,7 @@ public class MysqlStore<T extends Storeble> extends DbStore<T> {
 		} else if (type == MetaType.STRING) {
 			return (String) obj;
 		} else if (type == MetaType.DATE) {
-			String value = (String) obj;
-			return TimeUtil.parseCompleteTime(value);
+			return (Timestamp) obj;
 		} else if (type == MetaType.ARRAY) {
 			throw new UnsupportedOperationException("尚不支持" + type + "类型");
 		} else if (type == MetaType.LIST) {
