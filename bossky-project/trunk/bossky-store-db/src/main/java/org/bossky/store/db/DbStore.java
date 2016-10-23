@@ -212,10 +212,6 @@ public abstract class DbStore<T extends Storeble> extends AbstractStore<T> {
 			for (Table.Column c : table.getColumns()) {
 				if (Misc.eq(m.getName(), c.getName())) {
 					String sqlType = toSqlType(m.getType());
-					int index = sqlType.indexOf("(");
-					if (index > 0) {
-						sqlType = sqlType.substring(0, index);
-					}
 					if (!Misc.eqIgnoreCase(sqlType, c.getType())) {
 						throw new IllegalArgumentException("不允许改变已有属性的类型,原来" + c.getType() + ",现在" + sqlType);
 					}
