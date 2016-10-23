@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bossky.search.Searcher;
-import org.bossky.search.Searchers;
+import org.bossky.search.SearcherHub;
 
 /**
  * 搜索器集合抽象类
@@ -12,7 +12,7 @@ import org.bossky.search.Searchers;
  * @author bo
  *
  */
-public abstract class AbstractSearchers implements Searchers {
+public abstract class AbstractSearchers implements SearcherHub {
 
 	protected Map<String, Searcher> map;
 
