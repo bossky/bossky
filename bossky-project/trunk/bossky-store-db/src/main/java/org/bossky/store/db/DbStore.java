@@ -212,8 +212,12 @@ public abstract class DbStore<T extends Storeble> extends AbstractStore<T> {
 			for (Table.Column c : table.getColumns()) {
 				if (Misc.eq(m.getName(), c.getName())) {
 					String sqlType = toSqlType(m.getType());
-					if (!Misc.eq(sqlType, c.getType())) {
-						throw new IllegalArgumentException("不允许改变已有属性的类型");
+					int index = sqlType.indexOf("(");
+					if (index > 0) {
+						sqlType = sqlType.substring(0, index);
+					}
+					if (!Misc.eqIgnoreCase(sqlType, c.getType())) {
+						throw new IllegalArgumentException("不允许改变已有属性的类型,原来" + c.getType() + ",现在" + sqlType);
 					}
 					isExist = true;
 					break;
@@ -266,7 +270,7 @@ public abstract class DbStore<T extends Storeble> extends AbstractStore<T> {
 		sb.append("`,`");
 		sb.append(__STORE_ID);
 		sb.append("`)");
-		sb.append(" VALUES ( ");
+		sb.append(" VALUES (");
 		for (Meta m : metas) {
 			sb.append(toSqlValue(m.getType(), m.getValue(storeble)));
 			sb.append(",");
@@ -298,8 +302,7 @@ public abstract class DbStore<T extends Storeble> extends AbstractStore<T> {
 				dirtys.add(new Pair<String, Object>(m.getName(), newValue));
 			}
 		}
-		if (dirtys.isEmpty()
-				&& Misc.eq(id.getCaption(), old.getStoreId().getCaption())) {
+		if (dirtys.isEmpty() && Misc.eq(id.getCaption(), old.getStoreId().getCaption())) {
 			return null;// 没有更新
 		}
 		StringBuilder sb = new StringBuilder();
