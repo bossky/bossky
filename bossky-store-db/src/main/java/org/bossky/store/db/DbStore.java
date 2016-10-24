@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.bossky.common.Pair;
 import org.bossky.common.ResultPage;
@@ -25,7 +27,7 @@ import org.bossky.store.support.AbstractStore;
  * @author bo
  *
  */
-public abstract class DbStore<T extends Storeble> extends AbstractStore<T> {
+public abstract class DbStore<T extends Storeble> extends AbstractStore<T> implements Runnable {
 	/** 映射器 */
 	protected Mapper<T> mapper;
 	/** 集中器 */
@@ -35,10 +37,31 @@ public abstract class DbStore<T extends Storeble> extends AbstractStore<T> {
 	/** 存储Id描述属性名 */
 	protected static String __STORE_ID_CAPTION = "__store_id_caption";
 
+	/** 初始化进程 */
+	protected Future<?> initfuture;
+
 	protected DbStore(DbStoreHub hub, Class<T> clazz, Object... initargs) {
 		this.hub = hub;
 		mapper = AnnotationMappers.valueOf(clazz, initargs);
+		initfuture = hub.getExecutorService().submit(this);
+	}
+
+	@Override
+	public void run() {
 		init();
+	}
+
+	/**
+	 * 检查是否初始化
+	 */
+	public void checkinit() {
+		try {
+			initfuture.get();
+		} catch (InterruptedException e) {
+			return;
+		} catch (ExecutionException e) {
+			throw new RuntimeException("初始化异常", e);
+		}
 	}
 
 	/** 表名称 */
@@ -101,6 +124,7 @@ public abstract class DbStore<T extends Storeble> extends AbstractStore<T> {
 
 	@Override
 	protected T doGet(String id) {
+		checkinit();
 		String sql = selectSql(id);
 		DbExecuter executer = hub.getExecuter();
 		ResultSet rs = null;
