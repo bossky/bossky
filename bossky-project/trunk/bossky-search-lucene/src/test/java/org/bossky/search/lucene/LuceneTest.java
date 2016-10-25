@@ -25,7 +25,7 @@ public class LuceneTest extends TestCase {
 	}
 
 	public void test() {
-		LuceneSearchers ss = new LuceneSearchers("data/");
+		LuceneSearcherHub ss = new LuceneSearcherHub("data/");
 		Searcher searcher = ss.openSearcher("user");
 		searcher.updateEntry(
 				IndexEntrys.valueOf("user1"),

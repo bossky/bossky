@@ -1,7 +1,7 @@
 package org.bossky.search.lucene;
 
 import org.bossky.search.Searcher;
-import org.bossky.search.support.AbstractSearchers;
+import org.bossky.search.support.AbstractSearcherHub;
 
 /**
  * 基于lucene的搜索器集合
@@ -9,11 +9,11 @@ import org.bossky.search.support.AbstractSearchers;
  * @author bo
  *
  */
-public class LuceneSearchers extends AbstractSearchers {
+public class LuceneSearcherHub extends AbstractSearcherHub {
 	/** 存储目录 */
 	protected String storeDir;
 
-	public LuceneSearchers(String storeDir) {
+	public LuceneSearcherHub(String storeDir) {
 		this.storeDir = storeDir;
 	}
 
