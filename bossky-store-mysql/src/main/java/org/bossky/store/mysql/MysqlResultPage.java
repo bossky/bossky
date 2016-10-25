@@ -38,7 +38,8 @@ public class MysqlResultPage<T extends Storeble> extends AbstractResultPage<T> {
 
 	@Override
 	public boolean gotoPage(int page) {
-		int startIndex = (getPage() - 1) * getPageSize();
+		this.page = page;
+		int startIndex = (page - 1) * getPageSize();
 		int endIndex = startIndex + getPageSize();
 		currentResult = store.search(start, end, startIndex, endIndex);
 		return !currentResult.isEmpty();
