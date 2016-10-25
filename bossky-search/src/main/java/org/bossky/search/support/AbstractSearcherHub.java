@@ -12,11 +12,11 @@ import org.bossky.search.SearcherHub;
  * @author bo
  *
  */
-public abstract class AbstractSearchers implements SearcherHub {
+public abstract class AbstractSearcherHub implements SearcherHub {
 
 	protected Map<String, Searcher> map;
 
-	public AbstractSearchers() {
+	public AbstractSearcherHub() {
 		map = new HashMap<String, Searcher>();
 	}
 
