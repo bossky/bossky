@@ -60,7 +60,7 @@ public class ReverseResultPage<E> implements ResultPage<E>, Iterator<E> {
 
 	@Override
 	public boolean gotoPage(int page) {
-		return rp.gotoPage(rp.getPageSum() - page);
+		return rp.gotoPage(rp.getPageSum() - page + 1);
 	}
 
 	@Override
