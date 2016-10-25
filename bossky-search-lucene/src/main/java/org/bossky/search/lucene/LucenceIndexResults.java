@@ -26,8 +26,7 @@ import org.bossky.search.exception.SearchException;
  * @author bo
  *
  */
-public class LucenceIndexResults extends AbstractResultPage<IndexResult>
-		implements IndexResults {
+public class LucenceIndexResults extends AbstractResultPage<IndexResult> implements IndexResults {
 	/** 搜索器 */
 	protected LuceneSearcher searcher;
 	/** 查询条件 */
@@ -89,8 +88,7 @@ public class LucenceIndexResults extends AbstractResultPage<IndexResult>
 			if (null == sort) {
 				topDocs = is.searchAfter(after, query, preNum + getPageSize());
 			} else {
-				topDocs = is.searchAfter(after, query, preNum + getPageSize(),
-						sort);
+				topDocs = is.searchAfter(after, query, preNum + getPageSize(), sort);
 			}
 			ScoreDoc[] hits = topDocs.scoreDocs;
 			if (null == hits || hits.length == 0) {
@@ -101,8 +99,7 @@ public class LucenceIndexResults extends AbstractResultPage<IndexResult>
 				Document doc = is.doc(hits[i].doc);
 				if (null != doc) {
 					String key = doc.get(LuceneSearcher.ID_FIELD_NAME);
-					long score = Misc.toLong(
-							doc.get(LuceneSearcher.SCORE_FIELD_NAME), 0);
+					long score = Misc.toLong(doc.get(LuceneSearcher.SCORE_FIELD_NAME), 0);
 					list.add(new SimpleIndexResult(key, score));
 				}
 			}
@@ -153,16 +150,6 @@ public class LucenceIndexResults extends AbstractResultPage<IndexResult>
 	@Override
 	public boolean hasNext() {
 		return index < currentResult.size();
-	}
-
-	@Override
-	public IndexResult pre() {
-		return currentResult.get(index--);
-	}
-
-	@Override
-	public boolean hasPre() {
-		return index > 0;
 	}
 
 	@Override

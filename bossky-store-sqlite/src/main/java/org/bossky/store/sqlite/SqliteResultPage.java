@@ -72,16 +72,6 @@ public class SqliteResultPage<T extends Storeble> extends AbstractResultPage<T> 
 	}
 
 	@Override
-	public T pre() {
-		return currentResult.get(index--);
-	}
-
-	@Override
-	public boolean hasPre() {
-		return index > 0;
-	}
-
-	@Override
 	public Iterator<T> iterator() {
 		return currentResult.iterator();
 	}
