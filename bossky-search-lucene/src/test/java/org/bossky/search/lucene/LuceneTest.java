@@ -13,14 +13,14 @@ import org.bossky.search.support.IndexKeywords;
 /**
  * Unit test for simple App.
  */
-public class AppTest extends TestCase {
+public class LuceneTest extends TestCase {
 	/**
 	 * Create the test case
 	 *
 	 * @param testName
 	 *            name of the test case
 	 */
-	public AppTest(String testName) {
+	public LuceneTest(String testName) {
 		super(testName);
 	}
 
