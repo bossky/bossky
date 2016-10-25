@@ -36,6 +36,8 @@ import org.bossky.search.IndexResults;
 import org.bossky.search.QueryKeyword;
 import org.bossky.search.exception.SearchException;
 import org.bossky.search.support.AbstractSearcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 基于lucene的搜索器
@@ -60,10 +62,30 @@ public class LuceneSearcher extends AbstractSearcher {
 	protected IndexSearcher searcher;
 	/** 索引搜索器锁 */
 	protected Object searcherlock = new Object();
+	/** 日志 */
+	final static Logger _Logger = LoggerFactory.getLogger(LuceneSearcher.class);
 
 	public LuceneSearcher(String storeDir, String name) {
 		super(name);
 		this.storeDir = storeDir;
+		init();
+	}
+
+	protected void init() {
+		Path path = getPath();
+		IndexWriter iw = null;
+		try {
+			iw = new IndexWriter(FSDirectory.open(path), new IndexWriterConfig(KEYWORD_ANALYZER));
+			iw.commit();
+		} catch (IOException e) {
+			_Logger.warn("初始化" + path + "出错", e);
+		} finally {
+			try {
+				IOUtils.close(iw);
+			} catch (IOException e) {
+				// 忽略
+			}
+		}
 	}
 
 	@Override
@@ -80,8 +102,7 @@ public class LuceneSearcher extends AbstractSearcher {
 		Path path = getPath();
 		IndexWriter iw = null;
 		try {
-			iw = new IndexWriter(FSDirectory.open(path), new IndexWriterConfig(
-					KEYWORD_ANALYZER));
+			iw = new IndexWriter(FSDirectory.open(path), new IndexWriterConfig(KEYWORD_ANALYZER));
 			iw.updateDocument(new Term(ID_FIELD_NAME, id), doc);
 			destoryIndexSeacher();// // 清除缓存
 		} catch (IOException e) {
@@ -127,24 +148,20 @@ public class LuceneSearcher extends AbstractSearcher {
 	}
 
 	@Override
-	public IndexResults doSearch(long options, String begin, String end,
-			List<QueryKeyword> keywords) {
+	public IndexResults doSearch(long options, String begin, String end, List<QueryKeyword> keywords) {
 		// 创建query
 		Query query;
 		Sort sort;
 		BooleanQuery.Builder builder = new BooleanQuery.Builder();
 		if (null != begin || null != end) {
-			builder.add(TermRangeQuery.newStringRange(KEYWORD_FIELD_NAME,
-					begin, end, true, false), Occur.MUST);
+			builder.add(TermRangeQuery.newStringRange(KEYWORD_FIELD_NAME, begin, end, true, false), Occur.MUST);
 		}
 		for (QueryKeyword qk : keywords) {
 			Query ksquery = null;
 			if (qk.getType() == QueryKeyword.TYPE_ENTRY_PREFIX) {
-				ksquery = new PrefixQuery(
-						new Term(ID_FIELD_NAME, qk.getValue()));
+				ksquery = new PrefixQuery(new Term(ID_FIELD_NAME, qk.getValue()));
 			} else if (qk.getType() == QueryKeyword.TYPE_KEYWORD_ALL) {
-				ksquery = new TermQuery(new Term(KEYWORD_FIELD_NAME,
-						qk.getValue()));
+				ksquery = new TermQuery(new Term(KEYWORD_FIELD_NAME, qk.getValue()));
 			} else {
 				throw new IllegalArgumentException("未识别的状态" + qk.getType());
 			}
@@ -152,12 +169,10 @@ public class LuceneSearcher extends AbstractSearcher {
 		}
 		query = builder.build();
 		if (isOption(options, OPTION_SORT_BY_SCORE_ASC)) {
-			SortField sortField = new SortField(SCORE_FIELD_NAME,
-					SortField.Type.LONG, false);
+			SortField sortField = new SortField(SCORE_FIELD_NAME, SortField.Type.LONG, false);
 			sort = new Sort(SortField.FIELD_SCORE, sortField);
 		} else if (isOption(options, OPTION_SORT_BY_SCORE_DESC)) {
-			SortField sortField = new SortField(SCORE_FIELD_NAME,
-					SortField.Type.LONG, true);
+			SortField sortField = new SortField(SCORE_FIELD_NAME, SortField.Type.LONG, true);
 			sort = new Sort(SortField.FIELD_SCORE, sortField);
 		} else {
 			sort = null;
