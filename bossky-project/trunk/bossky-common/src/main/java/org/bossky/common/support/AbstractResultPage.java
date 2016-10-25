@@ -10,8 +10,7 @@ import org.bossky.common.ResultPage;
  * @author bo
  *
  */
-public abstract class AbstractResultPage<E> implements ResultPage<E>,
-		Iterator<E> {
+public abstract class AbstractResultPage<E> implements ResultPage<E>, Iterator<E> {
 	/** 当前页面 */
 	protected int page = 0;
 	/** 一页大小 */
@@ -22,50 +21,13 @@ public abstract class AbstractResultPage<E> implements ResultPage<E>,
 	}
 
 	@Override
-	public boolean hasPrePage() {
-		return page - 1 > 0;
-	}
-
-	@Override
-	public boolean prePage() {
-		if (hasPrePage()) {
-			return gotoPage(page - 1);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean hasNextPage() {
-		return page + 1 <= getPageSum();
-	}
-
-	@Override
-	public boolean nextPage() {
-		if (hasNextPage()) {
-			return gotoPage(page + 1);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean firstPage() {
-		return gotoPage(1);
-	}
-
-	@Override
-	public boolean lastPage() {
-		return gotoPage(getCount());
-	}
-
-	@Override
 	public int getPage() {
 		return page;
 	}
 
 	@Override
 	public int getPageSum() {
-		return getCount() / getPageSize()
-				+ (getCount() % getPageSize() == 0 ? 0 : 1);
+		return getCount() / getPageSize() + (getCount() % getPageSize() == 0 ? 0 : 1);
 	}
 
 	@Override
@@ -85,7 +47,6 @@ public abstract class AbstractResultPage<E> implements ResultPage<E>,
 
 	@Override
 	public String toString() {
-		return "当前:" + getPage() + "／" + getPageSum() + "页" + ",每页"
-				+ getPageSize() + "个元素,共" + getCount() + "个元素";
+		return "当前:" + getPage() + "／" + getPageSum() + "页" + ",每页" + getPageSize() + "个元素,共" + getCount() + "个元素";
 	}
 }

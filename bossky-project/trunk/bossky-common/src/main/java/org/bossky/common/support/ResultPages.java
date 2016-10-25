@@ -1,7 +1,5 @@
 package org.bossky.common.support;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,46 +12,6 @@ import org.bossky.common.ResultPage;
  *
  */
 public class ResultPages {
-	/** 空的分页结果 */
-	protected final static ResultPage<Object> EMPTY_RESULTPAGE = new EmptyResultPage<Object>();
-
-	/**
-	 * 将集合转换成可分页结果
-	 * 
-	 * @param collection
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static <E> ResultPage<E> toResultPage(Collection<E> collection) {
-		return new ResultPageArray<E>((E[]) collection.toArray());
-	}
-
-	/**
-	 * 翻转结果集
-	 * 
-	 * @param rp
-	 * @return
-	 */
-	public static <E> ResultPage<E> reverse(ResultPage<E> rp) {
-		return new ReverseResultPage<E>(rp);
-	}
-
-	/**
-	 * 合并结果集
-	 * 
-	 * @param arr
-	 * @return
-	 */
-	@SafeVarargs
-	public static <E> ResultPage<E> unite(ResultPage<E>... arr) {
-		ResultPageUnite<E> unite = ResultPageUnite.getInstance();
-		if (null != arr) {
-			for (ResultPage<E> rp : arr) {
-				unite.add(rp);
-			}
-		}
-		return unite;
-	}
 
 	/**
 	 * 将结果集转换成列表
@@ -62,10 +20,6 @@ public class ResultPages {
 	 * @return
 	 */
 	public static <E> List<E> toList(ResultPage<E> rp) {
-		if (rp instanceof ResultPageArray) {
-			ResultPageArray<E> arp = (ResultPageArray<E>) rp;
-			return Arrays.asList(arp.toArray());
-		}
 		return new ResultPageList<E>(rp);
 	}
 
@@ -79,41 +33,12 @@ public class ResultPages {
 		return (ResultPage<E>) EMPTY_RESULTPAGE;
 	}
 
-	static class EmptyResultPage<E> implements ResultPage<E>, Iterator<E> {
+	/** 空的分页结果 */
+	protected final static ResultPage<Object> EMPTY_RESULTPAGE =new  AbstractResultPage<Object>(){
 
 		@Override
-		public Iterator<E> iterator() {
+		public Iterator<Object> iterator() {
 			return this;
-		}
-
-		@Override
-		public boolean hasPrePage() {
-			return false;
-		}
-
-		@Override
-		public boolean prePage() {
-			return false;
-		}
-
-		@Override
-		public boolean hasNextPage() {
-			return false;
-		}
-
-		@Override
-		public boolean nextPage() {
-			return false;
-		}
-
-		@Override
-		public boolean firstPage() {
-			return false;
-		}
-
-		@Override
-		public boolean lastPage() {
-			return false;
 		}
 
 		@Override
@@ -122,32 +47,12 @@ public class ResultPages {
 		}
 
 		@Override
-		public int getPage() {
-			return 1;
-		}
-
-		@Override
-		public int getPageSum() {
-			return 0;
-		}
-
-		@Override
-		public void setPageSize(int size) {
-
-		}
-
-		@Override
-		public int getPageSize() {
-			return DEFAULT_PAGE_SIZE;
-		}
-
-		@Override
 		public int getCount() {
 			return 0;
 		}
 
 		@Override
-		public E next() {
+		public Object next() {
 			return null;
 		}
 
@@ -157,23 +62,9 @@ public class ResultPages {
 		}
 
 		@Override
-		public E pre() {
-			return null;
-		}
-
-		@Override
-		public boolean hasPre() {
-			return false;
-		}
-
-		@Override
-		public void remove() {
-
-		}
-
-		@Override
 		public String toString() {
 			return "[]";
 		}
-	}
+
+	};
 }

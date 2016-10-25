@@ -39,7 +39,12 @@ public abstract class AbstractSearcher implements Searcher {
 	@Override
 	public IndexResult get(String... keywords) {
 		IndexResults irs = search(keywords);
-		return irs.next();// 拿第一个就行了
+		if (irs.gotoPage(1)) {
+			for (IndexResult ir : irs) {
+				return ir;// 拿第一个就行了
+			}
+		}
+		return null;
 	}
 
 	@Override
