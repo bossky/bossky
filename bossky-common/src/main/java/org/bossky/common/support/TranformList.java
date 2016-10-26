@@ -1,6 +1,7 @@
 package org.bossky.common.support;
 
 import java.util.AbstractList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,11 +25,15 @@ public abstract class TranformList<E, V> extends AbstractList<E> {
 	}
 
 	public TranformList(List<V> original, boolean isUserCache) {
-		this.original = original;
-		if (isUserCache) {
-			cache = new Object[original.size()];
+		if (null == original) {
+			this.original = Collections.emptyList();
 		} else {
-			cache = null;
+			this.original = original;
+			if (isUserCache) {
+				cache = new Object[original.size()];
+			} else {
+				cache = null;
+			}
 		}
 	}
 
