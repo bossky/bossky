@@ -20,8 +20,7 @@ public class IoUtil {
 	/** 日志记录器 */
 	final static Logger _Logger = LoggerFactory.getLogger(IoUtil.class);
 	/** 用户目录 */
-	protected static final File USER_DIR = new File(
-			System.getProperty("user.dir"));
+	protected static final File USER_DIR = new File(System.getProperty("user.dir"));
 
 	/**
 	 * 用户目录
@@ -30,6 +29,16 @@ public class IoUtil {
 	 */
 	public static File getUserDir() {
 		return USER_DIR;
+	}
+
+	/**
+	 * 获取文件,以用户目录为根目录
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public static File getFile(String file) {
+		return new File(USER_DIR, file);
 	}
 
 	/**
