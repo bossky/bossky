@@ -322,9 +322,131 @@ public class Misc {
 	 */
 	public static boolean isNumber(String var) {
 		// 0-9对应的码 48 49 50 51 52 53 54 55 56 57
+		if (Misc.isEmpty(var)) {
+			return false;
+		}
 		for (int i = 0; i < var.length(); i++) {
 			int v = var.charAt(i);
 			if (v < 48 || v > 57) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 是否为字母组成的字符串
+	 * 
+	 * @param var
+	 * @return
+	 */
+	public static boolean isCase(String var) {
+		if (Misc.isEmpty(var)) {
+			return false;
+		}
+		for (int i = 0; i < var.length(); i++) {
+			char v = var.charAt(i);
+			if ((v < 'a' || v > 'z') && (v < 'A' || v > 'Z')) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 是否为小写字母组成的字符串
+	 * 
+	 * @param var
+	 * @return
+	 */
+	public static boolean isLowerCase(String var) {
+		if (Misc.isEmpty(var)) {
+			return false;
+		}
+		for (int i = 0; i < var.length(); i++) {
+			char v = var.charAt(i);
+			if (v < 'a' || v > 'z') {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 是否为大写字母组成的字符串
+	 * 
+	 * @param var
+	 * @return
+	 */
+	public static boolean isUpperCase(String var) {
+		if (Misc.isEmpty(var)) {
+			return false;
+		}
+		for (int i = 0; i < var.length(); i++) {
+			char v = var.charAt(i);
+			if (v < 'A' || v > 'Z') {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 是否为手机号
+	 * 
+	 * @param var
+	 * @return
+	 */
+	public static boolean isMobile(String var) {
+		if (null == var) {
+			return false;
+		}
+		if (var.length() != 11) {
+			return false;
+		}
+		char c = var.charAt(0);
+		if (c != '1') {
+			return false;
+		}
+		for (int i = 1; i < var.length(); i++) {
+			char v = var.charAt(i);
+			if (v < '0' || v > '9') {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 是否为邮箱
+	 * 
+	 * @param var
+	 * @return
+	 */
+	public static boolean isEmail(String var) {
+		if (null == var) {
+			return false;
+		}
+		int atIndex = -1;
+		int i;
+		for (i = 0; i < var.length(); i++) {
+			char v = var.charAt(i);
+			if (v == '@') {
+				atIndex = i;
+				break;
+			}
+			// 邮箱的前部分只能用 数字、字母、下划线组成
+			if ((v != '_') && (v < '0' || v > '9') && (v < 'a' || v > 'z') && (v < 'A' || v > 'Z')) {
+				return false;
+			}
+		}
+		if (atIndex == -1 || atIndex == var.length()) {// 没有@符号或者@在最后
+			return false;
+		}
+		for (i = 0; i < var.length(); i++) {
+			char v = var.charAt(i);
+			// 邮箱的前部分只能用 数字、字母、下划线组成
+			if ((v != '.') && (v != '_') && (v < '0' || v > '9') && (v < 'a' || v > 'z') && (v < 'A' || v > 'Z')) {
 				return false;
 			}
 		}
@@ -599,8 +721,6 @@ public class Misc {
 	}
 
 	public static void main(String[] args) {
-		for (int i = 0; i < 100; i++) {
-			System.out.println(randomNumber(6));
-		}
+		System.out.println("az-Z".toLowerCase());
 	}
 }
