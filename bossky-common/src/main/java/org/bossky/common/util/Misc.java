@@ -443,7 +443,7 @@ public class Misc {
 		if (atIndex == -1 || atIndex == var.length()) {// 没有@符号或者@在最后
 			return false;
 		}
-		for (i = 0; i < var.length(); i++) {
+		for (i=i+1; i < var.length(); i++) {
 			char v = var.charAt(i);
 			// 邮箱的前部分只能用 数字、字母、下划线组成
 			if ((v != '.') && (v != '_') && (v < '0' || v > '9') && (v < 'a' || v > 'z') && (v < 'A' || v > 'Z')) {
