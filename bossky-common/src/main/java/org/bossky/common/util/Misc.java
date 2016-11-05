@@ -6,6 +6,9 @@ import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,20 @@ import org.slf4j.LoggerFactory;
 public class Misc {
 	/** 记录日志 */
 	final static Logger _Logger = LoggerFactory.getLogger(Misc.class);
+	/** 随机数生成器 */
+	static final Random _Random = new Random();
+	/** 定时器 */
+	static final Timer _Timer = new Timer(Misc.class.getSimpleName() + "_Timer", true);
+
+	static {
+		_Timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				_Random.setSeed(System.currentTimeMillis());// 每隔一段时间重置一下随机数
+			}
+		}, 30 * 60 * 1000, 30 * 60 * 1000);
+	}
 
 	/**
 	 * 将字串转换成short，转换失败返回0
@@ -293,8 +310,7 @@ public class Misc {
 	 * @return
 	 */
 	public static <E> boolean isEmpty(Collection<E> collection) {
-		return null == collection ? true : collection.size() == 0 ? true
-				: false;
+		return null == collection ? true : collection.size() == 0 ? true : false;
 
 	}
 
@@ -541,6 +557,50 @@ public class Misc {
 					_Logger.trace("关闭" + able + "出错", e);
 				}
 			}
+		}
+	}
+
+	/** 数字表 */
+	private static String NUMBER_TABLES = "0123456789";
+
+	/**
+	 * 生成指定长度的随机数字
+	 * 
+	 * @param length
+	 * @return
+	 */
+	public static String randomNumber(int length) {
+		// 随机由table中取得字符
+		char[] chars = new char[length];
+		// Random random = new Random();
+		for (int i = 0; i < length; i++) {
+			chars[i] = NUMBER_TABLES.charAt(_Random.nextInt(NUMBER_TABLES.length()));
+		}
+		return new String(chars);
+	}
+
+	/**
+	 * 生成指定长度的随机数
+	 * 
+	 * @param length
+	 *            随机数的长度
+	 * @param table
+	 *            要生成随机数的表
+	 * @return
+	 */
+	public static String random(int length, String table) {
+		// 随机由table中取得字符
+		char[] chars = new char[length];
+		// Random random = new Random();
+		for (int i = 0; i < length; i++) {
+			chars[i] = table.charAt(_Random.nextInt(table.length()));
+		}
+		return new String(chars);
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 100; i++) {
+			System.out.println(randomNumber(6));
 		}
 	}
 }
