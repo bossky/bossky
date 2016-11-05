@@ -41,6 +41,9 @@ public class AnnotationMeta extends AbstractMeta implements Meta {
 	@Override
 	public void setValue(Object obj, Object value) throws MapperException {
 		try {
+			if (null == value && field.getType().isPrimitive()) {
+				return;// 值是空并且属性是原子的就不赋值了
+			}
 			field.set(obj, value);
 		} catch (IllegalArgumentException e) {
 			throw new MapperException("参数异常", e);
