@@ -443,7 +443,7 @@ public class Misc {
 		if (atIndex == -1 || atIndex == var.length()) {// 没有@符号或者@在最后
 			return false;
 		}
-		for (i=i+1; i < var.length(); i++) {
+		for (i = i + 1; i < var.length(); i++) {
 			char v = var.charAt(i);
 			// 邮箱的前部分只能用 数字、字母、下划线组成
 			if ((v != '.') && (v != '_') && (v < '0' || v > '9') && (v < 'a' || v > 'z') && (v < 'A' || v > 'Z')) {
@@ -683,7 +683,13 @@ public class Misc {
 	}
 
 	/** 数字表 */
-	private static String NUMBER_TABLES = "0123456789";
+	public static final String NUMBER_TABLES = "0123456789";
+	/** 小写字母表 */
+	public static final String LOWER_CASE_TABLES = "abcdefghijklmnopqrstuvwxyz";
+	/** 大写字母表 */
+	public static final String UPPER_CASE_TABLES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	/** 大小写字母表 */
+	public static final String CASE_TABLES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	/**
 	 * 生成指定长度的随机数字
@@ -692,11 +698,51 @@ public class Misc {
 	 * @return
 	 */
 	public static String randomNumber(int length) {
+		return random(length, NUMBER_TABLES);
+	}
+
+	/**
+	 * 随机生成字母
+	 * 
+	 * @param length
+	 * @return
+	 */
+	public static String randomCase(int length) {
+		return random(length, CASE_TABLES);
+	}
+
+	/**
+	 * 随机生成字母和数字
+	 * 
+	 * @param length
+	 * @return
+	 */
+	public static String randomCaseAndNumber(int length) {
+		return random(length, CASE_TABLES + NUMBER_TABLES);
+	}
+
+	/**
+	 * 随机生成汉字
+	 * 
+	 * @param length
+	 *            生成的汉字数
+	 * @return
+	 */
+	public static String randomHanzi(int length) {
+		// 0x4E00-0x9FA5
+		// 中日韩统一表意文字
+		// 0x2E80－0xA4CF
+		// 包含了中日朝部首补充、康熙部首、表意文字描述符、中日朝符号和标点、日文平假名、日文片假名、注音字母、谚文兼容字母、象形字注释标志、注音字母扩展、中日朝笔画、日文片假名语音扩展、带圈中日朝字母和月份、中日朝兼容、中日朝统一表意文字扩展A、易经六十四卦符号、中日韩统一表意文字、彝文音节、彝文字根
+		// 0xF900-0xFAFF
+		// 中日朝兼容表意文字
+		// 0xFE30-0xFE4F
+
+		// 中日朝兼容形式
 		// 随机由table中取得字符
 		char[] chars = new char[length];
 		// Random random = new Random();
 		for (int i = 0; i < length; i++) {
-			chars[i] = NUMBER_TABLES.charAt(_Random.nextInt(NUMBER_TABLES.length()));
+			chars[i] = (char) (0x4e00 + (_Random.nextInt(0x9fa5 - 0x4e00 + 1)));
 		}
 		return new String(chars);
 	}
@@ -721,6 +767,6 @@ public class Misc {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("az-Z".toLowerCase());
+		System.out.println(randomHanzi(4));
 	}
 }
