@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.bossky.common.CharTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -682,15 +683,6 @@ public class Misc {
 		}
 	}
 
-	/** 数字表 */
-	public static final String NUMBER_TABLES = "0123456789";
-	/** 小写字母表 */
-	public static final String LOWER_CASE_TABLES = "abcdefghijklmnopqrstuvwxyz";
-	/** 大写字母表 */
-	public static final String UPPER_CASE_TABLES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	/** 大小写字母表 */
-	public static final String CASE_TABLES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 	/**
 	 * 生成指定长度的随机数字
 	 * 
@@ -698,7 +690,7 @@ public class Misc {
 	 * @return
 	 */
 	public static String randomNumber(int length) {
-		return random(length, NUMBER_TABLES);
+		return random(length, CharTable.NUMBER_TABLES);
 	}
 
 	/**
@@ -708,7 +700,7 @@ public class Misc {
 	 * @return
 	 */
 	public static String randomCase(int length) {
-		return random(length, CASE_TABLES);
+		return random(length, CharTable.CASE_TABLES);
 	}
 
 	/**
@@ -718,7 +710,7 @@ public class Misc {
 	 * @return
 	 */
 	public static String randomCaseAndNumber(int length) {
-		return random(length, CASE_TABLES + NUMBER_TABLES);
+		return random(length, CharTable.CASE_AND_NUMBER_TABLES);
 	}
 
 	/**
@@ -736,15 +728,15 @@ public class Misc {
 		// 0xF900-0xFAFF
 		// 中日朝兼容表意文字
 		// 0xFE30-0xFE4F
-
 		// 中日朝兼容形式
 		// 随机由table中取得字符
-		char[] chars = new char[length];
-		// Random random = new Random();
-		for (int i = 0; i < length; i++) {
-			chars[i] = (char) (0x4e00 + (_Random.nextInt(0x9fa5 - 0x4e00 + 1)));
-		}
-		return new String(chars);
+		// char[] chars = new char[length];
+		// // Random random = new Random();
+		// for (int i = 0; i < length; i++) {
+		// chars[i] = (char) (0x4e00 + (_Random.nextInt(0x9fa5 - 0x4e00 + 1)));
+		// }
+		// return new String(chars);
+		return random(length, CharTable.HANZI_SIMPLE);
 	}
 
 	/**
